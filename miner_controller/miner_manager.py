@@ -20,32 +20,30 @@ class MinerManager:
         self.cpu_miner = CPUMiner(config)
         self.gpu_miner = GPUMiner(config)
         self.mining_logs = MiningLogs()
-        self.process_monitor = ProcessMonitor(self.cpu_miner, self.gpu_miner)
+        self.process_monitor = ProcessMonitor(self.cpu_miner, self.gpu_miner, self.config)
 
     def start_mining(self):
-        """
-        Starts CPU and GPU mining processes.
-        """
         logger.info("Starting mining processes...")
-        self.mining_logs.log_event("Starting CPU miner...")
-        self.cpu_miner.start()
 
-        self.mining_logs.log_event("Starting GPU miner...")
-        self.gpu_miner.start()
+        if self.config.get("CPU_ENABLED", True):
+            self.mining_logs.log_event("Starting CPU miner...")
+            self.cpu_miner.start()
 
-        # Optionally, you can start the process_monitor in a separate thread.
-        # For alpha version, we just call monitor() once or run it in the background.
-        self.process_monitor.monitor()  # This might block if it's a while loop
+        if self.config.get("GPU_ENABLED", False):
+            self.mining_logs.log_event("Starting GPU miner...")
+            self.gpu_miner.start()
+
+        self.process_monitor.monitor()
 
     def stop_mining(self):
-        """
-        Stops CPU and GPU mining processes.
-        """
         logger.info("Stopping mining processes...")
-        self.mining_logs.log_event("Stopping CPU miner...")
-        self.cpu_miner.stop()
 
-        self.mining_logs.log_event("Stopping GPU miner...")
-        self.gpu_miner.stop()
+        if self.config.get("CPU_ENABLED", True):
+            self.mining_logs.log_event("Stopping CPU miner...")
+            self.cpu_miner.stop()
+
+        if self.config.get("GPU_ENABLED", False):
+            self.mining_logs.log_event("Stopping GPU miner...")
+            self.gpu_miner.stop()
 
         logger.info("All mining processes have been stopped.")
