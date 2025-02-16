@@ -10,7 +10,7 @@ if __name__ == "__main__":
         "CPU_MINER_ARGS": [
             "-o", monero_keys.XMR_POOL,  # e.g. "pool.supportxmr.com:3333"
             "-u", monero_keys.XMR_WALLET,  # your wallet address
-            "-p", monero_keys.XMR_PASS,  # typically "x"
+            "-p", monero_keys.XMR_PASSWORD,  # typically "x"
         ],
 
         # For now, ignore GPU
