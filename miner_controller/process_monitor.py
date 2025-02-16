@@ -20,19 +20,19 @@ class ProcessMonitor:
         self._running = True
 
     def monitor(self):
-        """
-        Continuously monitors the processes.
-        Restarts them if they are not running.
-        """
         logger.info("ProcessMonitor started.")
         while self._running:
-            if not self.cpu_miner.is_running():
-                logger.warning("CPU miner not running! Restarting...")
-                self.cpu_miner.start()
+            # Check CPU only if CPU_ENABLED
+            if self.cpu_miner and self.config.get("CPU_ENABLED", True):
+                if not self.cpu_miner.is_running():
+                    logger.warning("CPU miner not running! Restarting...")
+                    self.cpu_miner.start()
 
-            if not self.gpu_miner.is_running():
-                logger.warning("GPU miner not running! Restarting...")
-                self.gpu_miner.start()
+            # Check GPU only if GPU_ENABLED
+            if self.gpu_miner and self.config.get("GPU_ENABLED", False):
+                if not self.gpu_miner.is_running():
+                    logger.warning("GPU miner not running! Restarting...")
+                    self.gpu_miner.start()
 
             time.sleep(self.check_interval)
 

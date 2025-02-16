@@ -1,4 +1,3 @@
-# cpu_miner.py
 import threading
 import logging
 import subprocess
@@ -20,22 +19,27 @@ class CPUMiner:
         cmd = [miner_path] + miner_args
 
         try:
-            # Capture the stdout in a pipe:
             self.process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                text=True  # ensures we get strings instead of bytes
+                text=True
             )
             self.running = True
             logger.info(f"CPU miner started with PID: {self.process.pid}")
 
-            # Start a thread to read lines from the miner process:
-            self.reader_thread = threading.Thread(target=self._read_miner_output, daemon=True)
+            self.reader_thread = threading.Thread(
+                target=self._read_miner_output,
+                daemon=True
+            )
             self.reader_thread.start()
 
         except Exception as e:
             logger.error(f"Failed to start CPU miner: {e}")
+
+    def is_running(self):
+        """Check if the miner process is running."""
+        return self.running and self.process and (self.process.poll() is None)
 
     def _read_miner_output(self):
         accepted_count = 0
@@ -45,12 +49,8 @@ class CPUMiner:
             line = self.process.stdout.readline()
             if not line:
                 break
-
-            # Look for accepted share lines
             if "accepted" in line:
                 accepted_count += 1
-
-            # Print once every 60 seconds
             if time.time() - last_print_time > 60:
                 logger.info(f"[XMRig Stats] Accepted shares so far: {accepted_count}")
                 last_print_time = time.time()

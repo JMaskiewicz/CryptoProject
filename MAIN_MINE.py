@@ -3,17 +3,15 @@ import keys.monero_keys as monero_keys
 
 if __name__ == "__main__":
     config = {
-        # Where XMRig is located on your PC
+        "CPU_ENABLED": True,
         "CPU_MINER_PATH": monero_keys.path,
-
-        # The command-line arguments for XMRig
         "CPU_MINER_ARGS": [
-            "-o", monero_keys.XMR_POOL,  # e.g. "pool.supportxmr.com:3333"
-            "-u", monero_keys.XMR_WALLET,  # your wallet address
-            "-p", monero_keys.XMR_PASSWORD,  # typically "x"
+            "-o", monero_keys.XMR_POOL,
+            "-u", monero_keys.XMR_WALLET,
+            "-p", monero_keys.XMR_PASSWORD
         ],
 
-        # For now, ignore GPU
+        "GPU_ENABLED": False,
         "GPU_MINER_PATH": None,
         "GPU_MINER_ARGS": []
     }
