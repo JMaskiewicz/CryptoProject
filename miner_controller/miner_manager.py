@@ -1,5 +1,4 @@
 import logging
-import time
 from miner_controller.cpu_miner import CPUMiner
 from miner_controller.gpu_miner import GPUMiner
 from miner_controller.process_monitor import ProcessMonitor
@@ -21,7 +20,7 @@ class MinerManager:
         self.cpu_miner = CPUMiner(config)
         self.gpu_miner = GPUMiner(config)
         self.mining_logs = MiningLogs()
-        self.process_monitor = ProcessMonitor(self.cpu_miner, self.gpu_miner)
+        self.process_monitor = ProcessMonitor(self.cpu_miner, self.gpu_miner, self.config)
 
     def start_mining(self):
         logger.info("Starting mining processes...")

@@ -16,10 +16,7 @@ class ExchangeAPI:
             config["BINANCE_API_SECRET"]
         """
         self.config = config
-        # Example: self.binance = ccxt.binance({
-        #   'apiKey': config["BINANCE_API_KEY"],
-        #   'secret': config["BINANCE_API_SECRET"],
-        # })
+
 
     def get_balance(self, coin="XMR"):
         """
@@ -27,10 +24,8 @@ class ExchangeAPI:
         (Alpha version: mock response or partial logic)
         """
         logger.info(f"Fetching balance for {coin} (mocked).")
-        # Example with ccxt:
-        # balance = self.binance.fetch_balance()
-        # return balance.get(coin, {}).get('free', 0)
-        return 10.0  # Mocked value
+
+        return 0
 
     def create_order(self, symbol="XMR/ETH", side="sell", amount=1.0, price=None):
         """
@@ -38,14 +33,7 @@ class ExchangeAPI:
         (Alpha version: mock response or partial logic)
         """
         logger.info(f"Creating {side} order for {amount} {symbol} at price {price} (mocked).")
-        # Example with ccxt:
-        # order = self.binance.create_order(
-        #     symbol=symbol,
-        #     type='market',  # or 'limit'
-        #     side=side,
-        #     amount=amount,
-        #     price=price
-        # )
+
         return {
             "id": "mock_order_id",
             "symbol": symbol,
